@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<project name="Ant" default="jar" basedir=".">
+    <property name="src.dir" location="src/psynthesispp" />
+    <property name="build.dir" location="build" />
+    <property name="docs.dir" location="docs" />
+	<property name="ant.build.javac.target" value="1.8"/>
+	<property name="ant.build.javac.source" value="1.8"/>
+
+    <!-- Kompiliert Quellcode -->
+    <target name="compile">
+        <delete dir="${build.dir}" />
+        <mkdir dir="${build.dir}" />
+        <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false" />
+    </target>
+
+    <!-- Erzeugt Javadoc -->
+    <target name="docs" depends="compile">
+        <delete dir="${docs.dir}" />
+        <mkdir dir="${docs.dir}" />
+		<javadoc packagenames="psynthesispp.*"
+			sourcepath="${src.dir}"
+			destdir="${docs.dir}"
+			encoding="utf-8"
+			charset="utf-8"
+			docencoding="utf-8">
+	        <fileset dir="${src.dir}">
+	            <include name="**" />
+	        </fileset>
+	    </javadoc>
+    </target>
+	
+	<target name="jar" depends="compile">
+		<jar destfile="PsynthesisPP.jar" basedir="${build.dir}" >
+			<manifest>
+				<attribute name="Main-Class" value="psynthesispp.Main"/>
+			</manifest>
+		</jar>
+	</target>
+</project>
